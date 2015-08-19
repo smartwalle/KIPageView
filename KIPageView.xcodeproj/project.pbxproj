@@ -1,0 +1,456 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D5C4B21B1B84B4B100A8792B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D5C4B21A1B84B4B100A8792B /* main.m */; };
+		D5C4B21E1B84B4B100A8792B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D5C4B21D1B84B4B100A8792B /* AppDelegate.m */; };
+		D5C4B2261B84B4B100A8792B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5C4B2251B84B4B100A8792B /* Images.xcassets */; };
+		D5C4B2351B84B4B100A8792B /* KIPageViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D5C4B2341B84B4B100A8792B /* KIPageViewTests.m */; };
+		D5C4B2401B84B51200A8792B /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5C4B23F1B84B51200A8792B /* RootViewController.m */; };
+		D5C4B2431B84B66D00A8792B /* PageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5C4B2421B84B66D00A8792B /* PageViewController.m */; };
+		D5C4B24B1B84B96600A8792B /* KIPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = D5C4B2461B84B96600A8792B /* KIPageView.m */; };
+		D5C4B24C1B84B96600A8792B /* KIPageViewImageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D5C4B2481B84B96600A8792B /* KIPageViewImageItem.m */; };
+		D5C4B24D1B84B96600A8792B /* KIPageViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D5C4B24A1B84B96600A8792B /* KIPageViewItem.m */; };
+		D5C4B2501B84CD4100A8792B /* HorizontalListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5C4B24F1B84CD4100A8792B /* HorizontalListViewController.m */; };
+		D5C4B2531B84CD5900A8792B /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5C4B2521B84CD5900A8792B /* BaseViewController.m */; };
+		D5C4B2561B84CF4900A8792B /* VerticalListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5C4B2551B84CF4900A8792B /* VerticalListViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D5C4B22F1B84B4B100A8792B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D5C4B20D1B84B4B100A8792B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D5C4B2141B84B4B100A8792B;
+			remoteInfo = KIPageView;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		D5C4B2151B84B4B100A8792B /* KIPageView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KIPageView.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D5C4B2191B84B4B100A8792B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D5C4B21A1B84B4B100A8792B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D5C4B21C1B84B4B100A8792B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		D5C4B21D1B84B4B100A8792B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		D5C4B2251B84B4B100A8792B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		D5C4B22E1B84B4B100A8792B /* KIPageViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KIPageViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D5C4B2331B84B4B100A8792B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D5C4B2341B84B4B100A8792B /* KIPageViewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KIPageViewTests.m; sourceTree = "<group>"; };
+		D5C4B23E1B84B51200A8792B /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		D5C4B23F1B84B51200A8792B /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		D5C4B2411B84B66D00A8792B /* PageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageViewController.h; sourceTree = "<group>"; };
+		D5C4B2421B84B66D00A8792B /* PageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageViewController.m; sourceTree = "<group>"; };
+		D5C4B2451B84B96600A8792B /* KIPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIPageView.h; sourceTree = "<group>"; };
+		D5C4B2461B84B96600A8792B /* KIPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIPageView.m; sourceTree = "<group>"; };
+		D5C4B2471B84B96600A8792B /* KIPageViewImageItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIPageViewImageItem.h; sourceTree = "<group>"; };
+		D5C4B2481B84B96600A8792B /* KIPageViewImageItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIPageViewImageItem.m; sourceTree = "<group>"; };
+		D5C4B2491B84B96600A8792B /* KIPageViewItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIPageViewItem.h; sourceTree = "<group>"; };
+		D5C4B24A1B84B96600A8792B /* KIPageViewItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIPageViewItem.m; sourceTree = "<group>"; };
+		D5C4B24E1B84CD4100A8792B /* HorizontalListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HorizontalListViewController.h; sourceTree = "<group>"; };
+		D5C4B24F1B84CD4100A8792B /* HorizontalListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HorizontalListViewController.m; sourceTree = "<group>"; };
+		D5C4B2511B84CD5900A8792B /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		D5C4B2521B84CD5900A8792B /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		D5C4B2541B84CF4900A8792B /* VerticalListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VerticalListViewController.h; sourceTree = "<group>"; };
+		D5C4B2551B84CF4900A8792B /* VerticalListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VerticalListViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D5C4B2121B84B4B100A8792B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D5C4B22B1B84B4B100A8792B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D5C4B20C1B84B4B100A8792B = {
+			isa = PBXGroup;
+			children = (
+				D5C4B2171B84B4B100A8792B /* KIPageView */,
+				D5C4B2311B84B4B100A8792B /* KIPageViewTests */,
+				D5C4B2161B84B4B100A8792B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D5C4B2161B84B4B100A8792B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D5C4B2151B84B4B100A8792B /* KIPageView.app */,
+				D5C4B22E1B84B4B100A8792B /* KIPageViewTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D5C4B2171B84B4B100A8792B /* KIPageView */ = {
+			isa = PBXGroup;
+			children = (
+				D5C4B2441B84B96600A8792B /* KIPageView */,
+				D5C4B21C1B84B4B100A8792B /* AppDelegate.h */,
+				D5C4B21D1B84B4B100A8792B /* AppDelegate.m */,
+				D5C4B23E1B84B51200A8792B /* RootViewController.h */,
+				D5C4B23F1B84B51200A8792B /* RootViewController.m */,
+				D5C4B2511B84CD5900A8792B /* BaseViewController.h */,
+				D5C4B2521B84CD5900A8792B /* BaseViewController.m */,
+				D5C4B2411B84B66D00A8792B /* PageViewController.h */,
+				D5C4B2421B84B66D00A8792B /* PageViewController.m */,
+				D5C4B24E1B84CD4100A8792B /* HorizontalListViewController.h */,
+				D5C4B24F1B84CD4100A8792B /* HorizontalListViewController.m */,
+				D5C4B2541B84CF4900A8792B /* VerticalListViewController.h */,
+				D5C4B2551B84CF4900A8792B /* VerticalListViewController.m */,
+				D5C4B2251B84B4B100A8792B /* Images.xcassets */,
+				D5C4B2181B84B4B100A8792B /* Supporting Files */,
+			);
+			path = KIPageView;
+			sourceTree = "<group>";
+		};
+		D5C4B2181B84B4B100A8792B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D5C4B2191B84B4B100A8792B /* Info.plist */,
+				D5C4B21A1B84B4B100A8792B /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D5C4B2311B84B4B100A8792B /* KIPageViewTests */ = {
+			isa = PBXGroup;
+			children = (
+				D5C4B2341B84B4B100A8792B /* KIPageViewTests.m */,
+				D5C4B2321B84B4B100A8792B /* Supporting Files */,
+			);
+			path = KIPageViewTests;
+			sourceTree = "<group>";
+		};
+		D5C4B2321B84B4B100A8792B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D5C4B2331B84B4B100A8792B /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D5C4B2441B84B96600A8792B /* KIPageView */ = {
+			isa = PBXGroup;
+			children = (
+				D5C4B2451B84B96600A8792B /* KIPageView.h */,
+				D5C4B2461B84B96600A8792B /* KIPageView.m */,
+				D5C4B2471B84B96600A8792B /* KIPageViewImageItem.h */,
+				D5C4B2481B84B96600A8792B /* KIPageViewImageItem.m */,
+				D5C4B2491B84B96600A8792B /* KIPageViewItem.h */,
+				D5C4B24A1B84B96600A8792B /* KIPageViewItem.m */,
+			);
+			path = KIPageView;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D5C4B2141B84B4B100A8792B /* KIPageView */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D5C4B2381B84B4B100A8792B /* Build configuration list for PBXNativeTarget "KIPageView" */;
+			buildPhases = (
+				D5C4B2111B84B4B100A8792B /* Sources */,
+				D5C4B2121B84B4B100A8792B /* Frameworks */,
+				D5C4B2131B84B4B100A8792B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KIPageView;
+			productName = KIPageView;
+			productReference = D5C4B2151B84B4B100A8792B /* KIPageView.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D5C4B22D1B84B4B100A8792B /* KIPageViewTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D5C4B23B1B84B4B100A8792B /* Build configuration list for PBXNativeTarget "KIPageViewTests" */;
+			buildPhases = (
+				D5C4B22A1B84B4B100A8792B /* Sources */,
+				D5C4B22B1B84B4B100A8792B /* Frameworks */,
+				D5C4B22C1B84B4B100A8792B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D5C4B2301B84B4B100A8792B /* PBXTargetDependency */,
+			);
+			name = KIPageViewTests;
+			productName = KIPageViewTests;
+			productReference = D5C4B22E1B84B4B100A8792B /* KIPageViewTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D5C4B20D1B84B4B100A8792B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0640;
+				ORGANIZATIONNAME = SmartWalle;
+				TargetAttributes = {
+					D5C4B2141B84B4B100A8792B = {
+						CreatedOnToolsVersion = 6.4;
+					};
+					D5C4B22D1B84B4B100A8792B = {
+						CreatedOnToolsVersion = 6.4;
+						TestTargetID = D5C4B2141B84B4B100A8792B;
+					};
+				};
+			};
+			buildConfigurationList = D5C4B2101B84B4B100A8792B /* Build configuration list for PBXProject "KIPageView" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D5C4B20C1B84B4B100A8792B;
+			productRefGroup = D5C4B2161B84B4B100A8792B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D5C4B2141B84B4B100A8792B /* KIPageView */,
+				D5C4B22D1B84B4B100A8792B /* KIPageViewTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D5C4B2131B84B4B100A8792B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D5C4B2261B84B4B100A8792B /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D5C4B22C1B84B4B100A8792B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D5C4B2111B84B4B100A8792B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D5C4B21E1B84B4B100A8792B /* AppDelegate.m in Sources */,
+				D5C4B2531B84CD5900A8792B /* BaseViewController.m in Sources */,
+				D5C4B21B1B84B4B100A8792B /* main.m in Sources */,
+				D5C4B2401B84B51200A8792B /* RootViewController.m in Sources */,
+				D5C4B24B1B84B96600A8792B /* KIPageView.m in Sources */,
+				D5C4B24C1B84B96600A8792B /* KIPageViewImageItem.m in Sources */,
+				D5C4B2561B84CF4900A8792B /* VerticalListViewController.m in Sources */,
+				D5C4B24D1B84B96600A8792B /* KIPageViewItem.m in Sources */,
+				D5C4B2501B84CD4100A8792B /* HorizontalListViewController.m in Sources */,
+				D5C4B2431B84B66D00A8792B /* PageViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D5C4B22A1B84B4B100A8792B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D5C4B2351B84B4B100A8792B /* KIPageViewTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D5C4B2301B84B4B100A8792B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D5C4B2141B84B4B100A8792B /* KIPageView */;
+			targetProxy = D5C4B22F1B84B4B100A8792B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		D5C4B2361B84B4B100A8792B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D5C4B2371B84B4B100A8792B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D5C4B2391B84B4B100A8792B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = KIPageView/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D5C4B23A1B84B4B100A8792B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = KIPageView/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		D5C4B23C1B84B4B100A8792B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = KIPageViewTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KIPageView.app/KIPageView";
+			};
+			name = Debug;
+		};
+		D5C4B23D1B84B4B100A8792B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = KIPageViewTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KIPageView.app/KIPageView";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D5C4B2101B84B4B100A8792B /* Build configuration list for PBXProject "KIPageView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D5C4B2361B84B4B100A8792B /* Debug */,
+				D5C4B2371B84B4B100A8792B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D5C4B2381B84B4B100A8792B /* Build configuration list for PBXNativeTarget "KIPageView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D5C4B2391B84B4B100A8792B /* Debug */,
+				D5C4B23A1B84B4B100A8792B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		D5C4B23B1B84B4B100A8792B /* Build configuration list for PBXNativeTarget "KIPageViewTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D5C4B23C1B84B4B100A8792B /* Debug */,
+				D5C4B23D1B84B4B100A8792B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D5C4B20D1B84B4B100A8792B /* Project object */;
+}
