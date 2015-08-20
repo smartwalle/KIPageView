@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface KIPageViewItem : UIView
+@interface KIPageViewCell : UIView
 
 @property (nonatomic, copy) NSString *reuseIdentifier;
 

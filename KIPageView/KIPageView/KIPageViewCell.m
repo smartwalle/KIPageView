@@ -6,15 +6,15 @@
 //  Copyright (c) 2015年 SmartWalle. All rights reserved.
 //
 
-#import "KIPageViewItem.h"
+#import "KIPageViewCell.h"
 
-@interface KIPageViewItem () {
+@interface KIPageViewCell () {
     @private
-    NSInteger _itemIndex;
+    NSInteger _cellIndex;
 }
 @end
 
-@implementation KIPageViewItem
+@implementation KIPageViewCell
 
 #pragma mark - Lifecycle
 - (void)dealloc {

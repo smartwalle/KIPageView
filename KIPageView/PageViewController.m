@@ -20,25 +20,25 @@
 }
 
 #pragma mark - KIPageViewDelegate
-- (NSInteger)numberOfPagesInPageView:(KIPageView *)pageView {
+- (NSInteger)numberOfCellsInPageView:(KIPageView *)pageView {
     return self.dataSource.count;
 }
 
-- (KIPageViewItem *)pageView:(KIPageView *)pageView itemAtIndex:(NSInteger)index {
-    static NSString *PAGE_VIEW_ITEM_IDENTIFIER = @"PageViewItem";
+- (KIPageViewCell *)pageView:(KIPageView *)pageView cellAtIndex:(NSInteger)index {
+    static NSString *PAGE_VIEW_CELL_IDENTIFIER = @"PageViewCell";
     
-    KIPageViewItem *pageViewItem = [pageView dequeueReusableItemWithIdentifier:PAGE_VIEW_ITEM_IDENTIFIER];
-    UILabel *label = (UILabel *)[pageViewItem viewWithTag:1001];
-    if (pageViewItem == nil) {
-        pageViewItem = [[KIPageViewItem alloc] initWithIdentifier:PAGE_VIEW_ITEM_IDENTIFIER];
+    KIPageViewCell *pageViewCell = [pageView dequeueReusableCellWithIdentifier:PAGE_VIEW_CELL_IDENTIFIER];
+    UILabel *label = (UILabel *)[pageViewCell viewWithTag:1001];
+    if (pageViewCell == nil) {
+        pageViewCell = [[KIPageViewCell alloc] initWithIdentifier:PAGE_VIEW_CELL_IDENTIFIER];
         label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 100, 30)];
         [label setTextColor:[UIColor blackColor]];
         [label setTag:1001];
-        [pageViewItem addSubview:label];
+        [pageViewCell addSubview:label];
     }
-    [pageViewItem setBackgroundColor:[UIColor redColor]];
+    [pageViewCell setBackgroundColor:[UIColor redColor]];
     [label setText:self.dataSource[index]];
-    return pageViewItem;
+    return pageViewCell;
 }
 
 - (void)pageView:(KIPageView *)pageView didDisplayPage:(NSInteger)pageIndex {
@@ -49,7 +49,7 @@
     NSLog(@"didEndDisplayingPage %ld", pageIndex);
 }
 
-- (void)pageView:(KIPageView *)pageView didSelectedItem:(KIPageViewItem *)pageViewItem atIndex:(NSInteger)index {
+- (void)pageView:(KIPageView *)pageView didSelectedCell:(KIPageViewCell *)pageViewItem atIndex:(NSInteger)index {
     NSLog(@"选中了第 %ld 项", index);
 }
 

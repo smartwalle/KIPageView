@@ -14,8 +14,7 @@
 		D5C4B2401B84B51200A8792B /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5C4B23F1B84B51200A8792B /* RootViewController.m */; };
 		D5C4B2431B84B66D00A8792B /* PageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5C4B2421B84B66D00A8792B /* PageViewController.m */; };
 		D5C4B24B1B84B96600A8792B /* KIPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = D5C4B2461B84B96600A8792B /* KIPageView.m */; };
-		D5C4B24C1B84B96600A8792B /* KIPageViewImageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D5C4B2481B84B96600A8792B /* KIPageViewImageItem.m */; };
-		D5C4B24D1B84B96600A8792B /* KIPageViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D5C4B24A1B84B96600A8792B /* KIPageViewItem.m */; };
+		D5C4B24D1B84B96600A8792B /* KIPageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D5C4B24A1B84B96600A8792B /* KIPageViewCell.m */; };
 		D5C4B2501B84CD4100A8792B /* HorizontalListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5C4B24F1B84CD4100A8792B /* HorizontalListViewController.m */; };
 		D5C4B2531B84CD5900A8792B /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5C4B2521B84CD5900A8792B /* BaseViewController.m */; };
 		D5C4B2561B84CF4900A8792B /* VerticalListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5C4B2551B84CF4900A8792B /* VerticalListViewController.m */; };
@@ -47,10 +46,8 @@
 		D5C4B2421B84B66D00A8792B /* PageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageViewController.m; sourceTree = "<group>"; };
 		D5C4B2451B84B96600A8792B /* KIPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIPageView.h; sourceTree = "<group>"; };
 		D5C4B2461B84B96600A8792B /* KIPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIPageView.m; sourceTree = "<group>"; };
-		D5C4B2471B84B96600A8792B /* KIPageViewImageItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIPageViewImageItem.h; sourceTree = "<group>"; };
-		D5C4B2481B84B96600A8792B /* KIPageViewImageItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIPageViewImageItem.m; sourceTree = "<group>"; };
-		D5C4B2491B84B96600A8792B /* KIPageViewItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIPageViewItem.h; sourceTree = "<group>"; };
-		D5C4B24A1B84B96600A8792B /* KIPageViewItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIPageViewItem.m; sourceTree = "<group>"; };
+		D5C4B2491B84B96600A8792B /* KIPageViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KIPageViewCell.h; sourceTree = "<group>"; };
+		D5C4B24A1B84B96600A8792B /* KIPageViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KIPageViewCell.m; sourceTree = "<group>"; };
 		D5C4B24E1B84CD4100A8792B /* HorizontalListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HorizontalListViewController.h; sourceTree = "<group>"; };
 		D5C4B24F1B84CD4100A8792B /* HorizontalListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HorizontalListViewController.m; sourceTree = "<group>"; };
 		D5C4B2511B84CD5900A8792B /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
@@ -148,10 +145,8 @@
 			children = (
 				D5C4B2451B84B96600A8792B /* KIPageView.h */,
 				D5C4B2461B84B96600A8792B /* KIPageView.m */,
-				D5C4B2471B84B96600A8792B /* KIPageViewImageItem.h */,
-				D5C4B2481B84B96600A8792B /* KIPageViewImageItem.m */,
-				D5C4B2491B84B96600A8792B /* KIPageViewItem.h */,
-				D5C4B24A1B84B96600A8792B /* KIPageViewItem.m */,
+				D5C4B2491B84B96600A8792B /* KIPageViewCell.h */,
+				D5C4B24A1B84B96600A8792B /* KIPageViewCell.m */,
 			);
 			path = KIPageView;
 			sourceTree = "<group>";
@@ -259,9 +254,8 @@
 				D5C4B21B1B84B4B100A8792B /* main.m in Sources */,
 				D5C4B2401B84B51200A8792B /* RootViewController.m in Sources */,
 				D5C4B24B1B84B96600A8792B /* KIPageView.m in Sources */,
-				D5C4B24C1B84B96600A8792B /* KIPageViewImageItem.m in Sources */,
 				D5C4B2561B84CF4900A8792B /* VerticalListViewController.m in Sources */,
-				D5C4B24D1B84B96600A8792B /* KIPageViewItem.m in Sources */,
+				D5C4B24D1B84B96600A8792B /* KIPageViewCell.m in Sources */,
 				D5C4B2501B84CD4100A8792B /* HorizontalListViewController.m in Sources */,
 				D5C4B2431B84B66D00A8792B /* PageViewController.m in Sources */,
 			);
@@ -441,6 +435,7 @@
 				D5C4B23A1B84B4B100A8792B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D5C4B23B1B84B4B100A8792B /* Build configuration list for PBXNativeTarget "KIPageViewTests" */ = {
 			isa = XCConfigurationList;
@@ -449,6 +444,7 @@
 				D5C4B23D1B84B4B100A8792B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

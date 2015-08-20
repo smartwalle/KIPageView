@@ -77,7 +77,7 @@
         _pageView = [[KIPageView alloc] init];
         [_pageView setBackgroundColor:[UIColor whiteColor]];
         [_pageView setDelegate:self];
-        [_pageView setItemMargin:10];
+        [_pageView setCellMargin:10];
     }
     return _pageView;
 }

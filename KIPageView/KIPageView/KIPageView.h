@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "KIPageViewItem.h"
+#import "KIPageViewCell.h"
 
 @class KIPageView;
 
@@ -21,16 +21,16 @@ typedef NS_OPTIONS(NSUInteger, KIPageViewOrientation) {
 @protocol KIPageViewDelegate <NSObject>
 
 @required
-- (NSInteger)numberOfPagesInPageView:(KIPageView *)pageView;
-- (KIPageViewItem *)pageView:(KIPageView *)pageView itemAtIndex:(NSInteger)index;
+- (NSInteger)numberOfCellsInPageView:(KIPageView *)pageView;
+- (KIPageViewCell *)pageView:(KIPageView *)pageView cellAtIndex:(NSInteger)index;
 
 @optional
 //只有当 infinite 为 NO 或者 pagingEnabled 为 NO 的时候，才会调用
-- (void)pageView:(KIPageView *)pageView willDisplayItem:(KIPageViewItem *)pageViewItem atIndex:(NSInteger)index;
-- (void)pageView:(KIPageView *)pageView didEndDisplayingItem:(KIPageViewItem *)pageViewItem atIndex:(NSInteger)index;
+- (void)pageView:(KIPageView *)pageView willDisplayCell:(KIPageViewCell *)pageViewItem atIndex:(NSInteger)index;
+- (void)pageView:(KIPageView *)pageView didEndDisplayingCell:(KIPageViewCell *)pageViewItem atIndex:(NSInteger)index;
 
-- (CGFloat)pageView:(KIPageView *)pageView widthForItemAtIndex:(NSInteger)index;
-- (CGFloat)pageView:(KIPageView *)pageView heightForItemAtIndex:(NSInteger)index;
+- (CGFloat)pageView:(KIPageView *)pageView widthForCellAtIndex:(NSInteger)index;
+- (CGFloat)pageView:(KIPageView *)pageView heightForCellAtIndex:(NSInteger)index;
 
 
 //只有当 infinite 为 YES 或者 pagingEnabled 为 YES 的时候，才会调用
@@ -38,7 +38,7 @@ typedef NS_OPTIONS(NSUInteger, KIPageViewOrientation) {
 - (void)pageView:(KIPageView *)pageView didEndDisplayingPage:(NSInteger)pageIndex;
 
 
-- (void)pageView:(KIPageView *)pageView didSelectedItem:(KIPageViewItem *)pageViewItem atIndex:(NSInteger)index;
+- (void)pageView:(KIPageView *)pageView didSelectedCell:(KIPageViewCell *)pageViewItem atIndex:(NSInteger)index;
 //- (void)pageView:(KIPageView *)pageView didDeselectedItem:(KIPageViewItem *)pageViewItem;
 
 @end
@@ -54,7 +54,7 @@ typedef NS_OPTIONS(NSUInteger, KIPageViewOrientation) {
 @property (nonatomic, assign) BOOL                      bounces;
 
 //只有当infinite为YES的时候，才会生效
-@property (nonatomic, assign) NSInteger                 itemMargin;
+@property (nonatomic, assign) NSInteger                 cellMargin;
 
 - (instancetype)initWithOrientation:(KIPageViewOrientation)orientation;
 
@@ -62,16 +62,16 @@ typedef NS_OPTIONS(NSUInteger, KIPageViewOrientation) {
 
 - (NSInteger)numberOfPages;
 
-- (CGRect)rectForPageViewItemAtIndex:(NSInteger)index;
+- (CGRect)rectForPageViewCellAtIndex:(NSInteger)index;
 
-- (NSInteger)indexOfPageViewItem:(KIPageViewItem *)item;
+- (NSInteger)indexOfPageViewCell:(KIPageViewCell *)item;
 
-- (KIPageViewItem *)pageViewItemAtIndex:(NSInteger)index;
+- (KIPageViewCell *)pageViewCellAtIndex:(NSInteger)index;
 
-- (KIPageViewItem *)dequeueReusableItemWithIdentifier:(NSString *)identifier;
+- (KIPageViewCell *)dequeueReusableCellWithIdentifier:(NSString *)identifier;
 
-- (void)scrollToPageViewItemAtIndex:(NSInteger)index;
-- (void)scrollToPageViewItemAtIndex:(NSInteger)index animated:(BOOL)animated;
+- (void)scrollToPageViewCellAtIndex:(NSInteger)index;
+- (void)scrollToPageViewCellAtIndex:(NSInteger)index animated:(BOOL)animated;
 
 - (void)scrollToNextPage;
 - (void)scrollToPreviousPage;

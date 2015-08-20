@@ -8,18 +8,18 @@
 
 #import "KIPageView.h"
 
-#pragma mark - Category KIPageViewItem(KIPageView)
-@interface KIPageViewItem (KIPageView)
+#pragma mark - Category KIPageViewCell(KIPageView)
+@interface KIPageViewCell (KIPageView)
 @end
 
-@implementation KIPageViewItem (KIPageView)
+@implementation KIPageViewCell (KIPageView)
 
-- (NSInteger)_pageViewItemIndex {
-    return [[self valueForKey:@"_itemIndex"] integerValue];
+- (NSInteger)_pageViewCellIndex {
+    return [[self valueForKey:@"_cellIndex"] integerValue];
 }
 
-- (void)_setPageViewItemIndex:(NSInteger)index {
-    [self setValue:@(index) forKey:@"_itemIndex"];
+- (void)_setPageViewCellIndex:(NSInteger)index {
+    [self setValue:@(index) forKey:@"_cellIndex"];
 }
 
 @end
@@ -50,7 +50,7 @@
 #pragma mark - Lifecycle
 - (void)dealloc {
     [self invalidTimer];
-    [self.visibleItems enumerateObjectsUsingBlock:^(KIPageViewItem *obj, BOOL *stop) {
+    [self.visibleItems enumerateObjectsUsingBlock:^(KIPageViewCell *obj, BOOL *stop) {
         [obj removeObserver:self forKeyPath:@"selected" context:nil];
     }];
 }
@@ -92,9 +92,9 @@
     CGRect rect = self.bounds;
     if ([self infinitable] || self.pagingEnabled) {
         if (self.pageViewOrientation == KIPageViewVertical) {
-            rect.size.height += self.itemMargin;
+            rect.size.height += self.cellMargin;
         } else {
-            rect.size.width += self.itemMargin;
+            rect.size.width += self.cellMargin;
         }
     }
     [self.scrollView setFrame:rect];
@@ -109,11 +109,11 @@
 
 #pragma mark - NSKeyValueObserving
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if ([keyPath isEqualToString:@"selected"] && [object isKindOfClass:[KIPageViewItem class]]) {
+    if ([keyPath isEqualToString:@"selected"] && [object isKindOfClass:[KIPageViewCell class]]) {
         
         BOOL selected = [[change objectForKey:NSKeyValueChangeNewKey] boolValue];
         if (selected) {
-            [self didSelectedItem:object];
+            [self didSelectedCell:object];
         }
     }
 }
@@ -158,47 +158,47 @@
 #pragma mark 【KIPageViewDelegate】
 #pragma mark **************************************************
 - (NSInteger)numberOfPages {
-    if (self.totalPages <= 0 && self.delegate != nil && [self.delegate respondsToSelector:@selector(numberOfPagesInPageView:)]) {
-        self.totalPages = [self.delegate numberOfPagesInPageView:self];
+    if (self.totalPages <= 0 && self.delegate != nil && [self.delegate respondsToSelector:@selector(numberOfCellsInPageView:)]) {
+        self.totalPages = [self.delegate numberOfCellsInPageView:self];
     }
     return self.totalPages;
 }
 
-- (KIPageViewItem *)itemAtIndex:(NSInteger)index {
-    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(pageView:itemAtIndex:)]) {
-        return [self.delegate pageView:self itemAtIndex:[self indexWithInfiniteIndex:index]];
+- (KIPageViewCell *)cellAtIndex:(NSInteger)index {
+    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(pageView:cellAtIndex:)]) {
+        return [self.delegate pageView:self cellAtIndex:[self indexWithInfiniteIndex:index]];
     }
     return nil;
 }
 
-- (void)willDisplayItem:(KIPageViewItem *)item atIndex:(NSInteger)index {
+- (void)willDisplayCell:(KIPageViewCell *)cell atIndex:(NSInteger)index {
     if (self.pagingEnabled) {
         return ;
     }
-    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(pageView:willDisplayItem:atIndex:)]) {
-        [self.delegate pageView:self willDisplayItem:item atIndex:[self indexWithInfiniteIndex:index]];
+    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(pageView:willDisplayCell:atIndex:)]) {
+        [self.delegate pageView:self willDisplayCell:cell atIndex:[self indexWithInfiniteIndex:index]];
     }
 }
 
-- (void)didEndDisplayingItem:(KIPageViewItem *)item atIndex:(NSInteger)index {
+- (void)didEndDisplayingCell:(KIPageViewCell *)cell atIndex:(NSInteger)index {
     if (self.pagingEnabled) {
         return ;
     }
-    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(pageView:didEndDisplayingItem:atIndex:)]) {
-        [self.delegate pageView:self didEndDisplayingItem:item atIndex:[self indexWithInfiniteIndex:index]];
+    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(pageView:didEndDisplayingCell:atIndex:)]) {
+        [self.delegate pageView:self didEndDisplayingCell:cell atIndex:[self indexWithInfiniteIndex:index]];
     }
 }
 
-- (CGFloat)widthForItemAtIndex:(NSInteger)index {
-    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(pageView:widthForItemAtIndex:)]) {
-        return [self.delegate pageView:self widthForItemAtIndex:index];
+- (CGFloat)widthForCellAtIndex:(NSInteger)index {
+    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(pageView:widthForCellAtIndex:)]) {
+        return [self.delegate pageView:self widthForCellAtIndex:index];
     }
     return 0;
 }
 
-- (CGFloat)heightForItemAtIndex:(NSInteger)index {
-    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(pageView:heightForItemAtIndex:)]) {
-        return [self.delegate pageView:self heightForItemAtIndex:index];
+- (CGFloat)heightForCellAtIndex:(NSInteger)index {
+    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(pageView:heightForCellAtIndex:)]) {
+        return [self.delegate pageView:self heightForCellAtIndex:index];
     }
     return 0;
 }
@@ -216,7 +216,7 @@
     if (!self.pagingEnabled) {
         return ;
     }
-    if (index == 0 || index == [self numberWithInfinitItems]-1) {
+    if (index == 0 || index == [self numberWithInfinitCells]-1) {
         return ;
     }
     if (self.delegate != nil && [self.delegate respondsToSelector:@selector(pageView:didEndDisplayingPage:)]) {
@@ -224,9 +224,9 @@
     }
 }
 
-- (void)didSelectedItem:(KIPageViewItem *)item {
-    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(pageView:didSelectedItem:atIndex:)]) {
-        [self.delegate pageView:self didSelectedItem:item atIndex:[self indexWithInfiniteIndex:[item _pageViewItemIndex]]];
+- (void)didSelectedCell:(KIPageViewCell *)cell {
+    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(pageView:didSelectedCell:atIndex:)]) {
+        [self.delegate pageView:self didSelectedCell:cell atIndex:[self indexWithInfiniteIndex:[cell _pageViewCellIndex]]];
     }
 }
 
@@ -236,29 +236,29 @@
 //    }
 //}
 
-- (void)updateRectForItems {
+- (void)updateRectForCells {
     [self.rectForItems removeAllObjects];
     
     CGFloat x = 0, y = 0;
     CGFloat width = [self width], height = [self height];
     
-    for (int i=0; i<[self numberWithInfinitItems]; i++) {
+    for (int i=0; i<[self numberWithInfinitCells]; i++) {
         CGRect rect;
         if (self.pageViewOrientation == KIPageViewVertical) {
             if ([self infinitable] || self.pagingEnabled) {
-                y = ([self height] + self.itemMargin) * i;
+                y = ([self height] + self.cellMargin) * i;
                 rect = CGRectMake(x, y, width, height);
             } else {
-                height = [self heightForItemAtIndex:i];
+                height = [self heightForCellAtIndex:i];
                 rect = CGRectMake(x, y, width, height);
                 y += height;
             }
         } else {
             if ([self infinitable] || self.pagingEnabled) {
-                x = ([self width] + self.itemMargin) * i;
+                x = ([self width] + self.cellMargin) * i;
                 rect = CGRectMake(x, y, width, height);
             } else {
-                width = [self widthForItemAtIndex:i];
+                width = [self widthForCellAtIndex:i];
                 rect = CGRectMake(x, y, width, height);
                 x += width;
             }
@@ -283,14 +283,14 @@
         height = [self height];
         
         if (self.pageViewOrientation == KIPageViewVertical) {
-            height += [self itemMargin];
-            height *= [self numberWithInfinitItems];
+            height += [self cellMargin];
+            height *= [self numberWithInfinitCells];
         } else {
-            width += [ self itemMargin];
-            width *= [self numberWithInfinitItems];
+            width += [ self cellMargin];
+            width *= [self numberWithInfinitCells];
         }
     } else {
-        for (int i=0; i<[self numberWithInfinitItems]; i++) {
+        for (int i=0; i<[self numberWithInfinitCells]; i++) {
             if (self.pageViewOrientation == KIPageViewVertical) {
                 height += CGRectFromString([self.rectForItems objectAtIndex:i]).size.height;
             } else {
@@ -306,7 +306,7 @@
     [self.scrollView setContentSize:CGSizeMake(width, height)];
 }
 
-- (CGRect)rectForPageViewItemAtIndex:(NSInteger)index {
+- (CGRect)rectForPageViewCellAtIndex:(NSInteger)index {
     if ([self indexOutOfBounds:index]) {
         return CGRectZero;
     }
@@ -322,25 +322,25 @@
 //    return rect;
 }
 
-- (NSInteger)indexOfPageViewItem:(KIPageViewItem *)item {
-    if (item == nil || ![item isKindOfClass:[KIPageViewItem class]]) {
+- (NSInteger)indexOfPageViewCell:(KIPageViewCell *)cell {
+    if (cell == nil || ![cell isKindOfClass:[KIPageViewCell class]]) {
         return -1;
     }
     
-    return [self indexWithInfiniteIndex:[item _pageViewItemIndex]];
+    return [self indexWithInfiniteIndex:[cell _pageViewCellIndex]];
 }
 
 /*
- 获取指定index的KIPageViewItem
+ 获取指定index的KIPageViewCell
  */
-- (KIPageViewItem *)pageViewItemAtIndex:(NSInteger)index {
+- (KIPageViewCell *)pageViewCellAtIndex:(NSInteger)index {
     if ([self indexOutOfBounds:index]) {
         return nil;
     }
-    return [self itemAtIndex:index];
+    return [self cellAtIndex:index];
 }
 
-- (NSInteger)numberWithInfinitItems {
+- (NSInteger)numberWithInfinitCells {
     NSInteger count = [self numberOfPages];
     if ([self infinitable] && count > 1) {
         return count + 2;
@@ -359,10 +359,10 @@
 #pragma mark 【将无限循环的index修正为常规的index】
 #pragma mark **************************************************
 - (NSInteger)indexWithInfiniteIndex:(NSInteger)index {
-    if ([self infinitable] && [self numberWithInfinitItems] > 1) {
-        if (index == [self numberWithInfinitItems] - 1) {
+    if ([self infinitable] && [self numberWithInfinitCells] > 1) {
+        if (index == [self numberWithInfinitCells] - 1) {
             index = 1;
-        } else if (index == [self numberWithInfinitItems] - 2) {
+        } else if (index == [self numberWithInfinitCells] - 2) {
             index = 0;
         }
     }
@@ -373,17 +373,17 @@
 #pragma mark 【检测Index是否越界】
 #pragma mark **************************************************
 - (BOOL)indexOutOfBounds:(NSInteger)index {
-    if (index < 0 || index >= [self numberWithInfinitItems]) {
+    if (index < 0 || index >= [self numberWithInfinitCells]) {
         return YES;
     }
     return NO;
 }
 
 #pragma mark **************************************************
-#pragma mark 【获取可以重用的Item】
+#pragma mark 【获取可以重用的Cell】
 #pragma mark **************************************************
-- (KIPageViewItem *)dequeueReusableItemWithIdentifier:(NSString *)identifier {
-    return [[self recycledItemsWithIdentifier:identifier] anyObject];
+- (KIPageViewCell *)dequeueReusableCellWithIdentifier:(NSString *)identifier {
+    return [[self recycledCellsWithIdentifier:identifier] anyObject];
 }
 
 - (NSMutableDictionary *)reusableItemsWithIdentifier:(NSString *)identifier {
@@ -395,23 +395,23 @@
     return reusableItems;
 }
 
-- (NSMutableSet *)recycledItemsWithIdentifier:(NSString *)identifier {
-    NSMutableSet *recycledItems = [[self reusableItemsWithIdentifier:identifier] objectForKey:@"recycledItems"];
-    if (recycledItems == nil) {
-        recycledItems = [[NSMutableSet alloc] init];
-        [[self reusableItemsWithIdentifier:identifier] setObject:recycledItems forKey:@"recycledItems"];
+- (NSMutableSet *)recycledCellsWithIdentifier:(NSString *)identifier {
+    NSMutableSet *recycledCells = [[self reusableItemsWithIdentifier:identifier] objectForKey:@"recycledCells"];
+    if (recycledCells == nil) {
+        recycledCells = [[NSMutableSet alloc] init];
+        [[self reusableItemsWithIdentifier:identifier] setObject:recycledCells forKey:@"recycledCells"];
     }
-    return recycledItems;
+    return recycledCells;
 }
 
 #pragma mark **************************************************
 #pragma mark 【跳转到指定index】
 #pragma mark **************************************************
-- (void)scrollToPageViewItemAtIndex:(NSInteger)index {
-    [self scrollToPageViewItemAtIndex:index animated:NO];
+- (void)scrollToPageViewCellAtIndex:(NSInteger)index {
+    [self scrollToPageViewCellAtIndex:index animated:NO];
 }
 
-- (void)scrollToPageViewItemAtIndex:(NSInteger)index animated:(BOOL)animated {
+- (void)scrollToPageViewCellAtIndex:(NSInteger)index animated:(BOOL)animated {
     if ([self indexOutOfBounds:index]) {
         return ;
     }
@@ -419,7 +419,7 @@
     if (index == 0) {
         [self updateDidDisplayPageIndex:self.scrollView];
     } else {
-        CGRect rect = [self rectForPageViewItemAtIndex:index];
+        CGRect rect = [self rectForPageViewCellAtIndex:index];
 //        CGPoint offset = rect.origin;
 //        if ([self infinitable]) {
 //            CGFloat x = MAX(rect.origin.x, self.scrollView.contentSize.width-[self width]-rect.size.width);
@@ -432,16 +432,16 @@
 }
 
 - (void)scrollToPageAtIndex:(NSInteger)pageIndex {
-    [self scrollToPageViewItemAtIndex:pageIndex animated:YES];
+    [self scrollToPageViewCellAtIndex:pageIndex animated:YES];
 }
 
 - (void)scrollToNextPage {
     if ([self infinitable]) {
         NSInteger index = self.currentPageIndex;
         if (index == 0) {
-            index = [self numberWithInfinitItems] - 2;
+            index = [self numberWithInfinitCells] - 2;
         }
-        [self scrollToPageViewItemAtIndex:++index animated:YES];
+        [self scrollToPageViewCellAtIndex:++index animated:YES];
     }
 }
 
@@ -449,9 +449,9 @@
     if ([self infinitable]) {
         NSInteger index = self.currentPageIndex;
         if (index == 0) {
-            index = [self numberWithInfinitItems] - 2;
+            index = [self numberWithInfinitCells] - 2;
         }
-        [self scrollToPageViewItemAtIndex:--index animated:YES];
+        [self scrollToPageViewCellAtIndex:--index animated:YES];
     }
 }
 
@@ -492,12 +492,12 @@
     
     [self setTotalPages:0];
     
-    [self updateRectForItems];
+    [self updateRectForCells];
     
     [self updateContentSize];
     [self updatePageViewItems];
 
-    [self scrollToPageViewItemAtIndex:0];
+    [self scrollToPageViewCellAtIndex:0];
 //    [self.scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
 //    [self updateDisplayingPageIndex:self.scrollView];
 }
@@ -509,14 +509,14 @@
         index = 0;
     }
     
-    [self updateRectForItems];
+    [self updateRectForCells];
     
     [self updateContentSize];
     [self updatePageViewItems];
     
     [self reloadVisibleItems];
     
-    [self scrollToPageViewItemAtIndex:index];
+    [self scrollToPageViewCellAtIndex:index];
 }
 
 - (void)updatePageViewItems {
@@ -543,12 +543,12 @@
         }
         
         firstNeededPageIndex = MAX(firstNeededPageIndex, 0);
-        lastNeededPageIndex  = MIN(lastNeededPageIndex, [self numberWithInfinitItems] - 1);
+        lastNeededPageIndex  = MIN(lastNeededPageIndex, [self numberWithInfinitCells] - 1);
     } else {
         //第一项的index
         firstNeededPageIndex = 0;
         
-        for (int i=0; i<[self numberWithInfinitItems]; i++) {
+        for (int i=0; i<[self numberWithInfinitCells]; i++) {
             CGRect rect = CGRectFromString([self.rectForItems objectAtIndex:i]);
             
             if (self.pageViewOrientation == KIPageViewVertical) {
@@ -567,7 +567,7 @@
         //最后一项的index
         lastNeededPageIndex  = firstNeededPageIndex;
         CGFloat width = 0, height = 0;
-        for (int i=(int)firstNeededPageIndex; i<[self numberWithInfinitItems]; i++) {
+        for (int i=(int)firstNeededPageIndex; i<[self numberWithInfinitCells]; i++) {
             CGRect rect = CGRectFromString([self.rectForItems objectAtIndex:i]);
             width += rect.size.width;
             height += rect.size.height;
@@ -585,7 +585,7 @@
         }
         
         firstNeededPageIndex = MAX(firstNeededPageIndex, 0);
-        lastNeededPageIndex  = MIN(lastNeededPageIndex, [self numberWithInfinitItems]-1);
+        lastNeededPageIndex  = MIN(lastNeededPageIndex, [self numberWithInfinitCells]-1);
     }
     
     [self setCurrentPageIndex:firstNeededPageIndex];
@@ -595,10 +595,10 @@
 }
 
 - (void)recycleItemsWithoutIndex:(NSInteger)fromIndex toIndex:(NSInteger)toIndex {
-    for (KIPageViewItem *item in self.visibleItems) {
-        NSInteger index = [item _pageViewItemIndex];
+    for (KIPageViewCell *item in self.visibleItems) {
+        NSInteger index = [item _pageViewCellIndex];
         if (index < fromIndex || index > toIndex) {
-            NSMutableSet *recycledItems = [self recycledItemsWithIdentifier:item.reuseIdentifier];
+            NSMutableSet *recycledItems = [self recycledCellsWithIdentifier:item.reuseIdentifier];
             [recycledItems addObject:item];
             
             [item removeObserver:self forKeyPath:@"selected"];
@@ -608,7 +608,7 @@
             if (self.pagingEnabled) {
                 [self didEndDisplayingPage:index];
             } else {
-                [self didEndDisplayingItem:item atIndex:index];
+                [self didEndDisplayingCell:item atIndex:index];
             }
         }
     }
@@ -618,12 +618,12 @@
 - (void)reloadItemAtIndex:(NSInteger)fromIndex toIndex:(NSInteger)toIndex {
     for (NSInteger index = fromIndex; index <= toIndex; index++) {
         if (![self isDisplayingItemAtIndex:index]) {
-            KIPageViewItem *pageViewItem = [self itemAtIndex:index];
+            KIPageViewCell *pageViewItem = [self cellAtIndex:index];
             if (pageViewItem != nil) {
-                [self willDisplayItem:pageViewItem atIndex:index];
+                [self willDisplayCell:pageViewItem atIndex:index];
                 
-                [pageViewItem _setPageViewItemIndex:index];
-                [pageViewItem setFrame:[self rectForPageViewItemAtIndex:index]];
+                [pageViewItem _setPageViewCellIndex:index];
+                [pageViewItem setFrame:[self rectForPageViewCellAtIndex:index]];
                 
                 [pageViewItem addObserver:self forKeyPath:@"selected" options:NSKeyValueObservingOptionNew context:nil];
                 
@@ -632,23 +632,23 @@
                 [self.visibleItems addObject:pageViewItem];
                 [self.recycledItems removeObject:pageViewItem];
                 
-                [[self recycledItemsWithIdentifier:pageViewItem.reuseIdentifier] removeObject:pageViewItem];
+                [[self recycledCellsWithIdentifier:pageViewItem.reuseIdentifier] removeObject:pageViewItem];
             }
         }
     }
 }
 
 - (void)reloadVisibleItems {
-    for (KIPageViewItem *item in self.visibleItems) {
-        NSInteger index = [item _pageViewItemIndex];
-        [item setFrame:[self rectForPageViewItemAtIndex:index]];
+    for (KIPageViewCell *item in self.visibleItems) {
+        NSInteger index = [item _pageViewCellIndex];
+        [item setFrame:[self rectForPageViewCellAtIndex:index]];
     }
 }
 
 - (BOOL)isDisplayingItemAtIndex:(NSInteger)index {
     BOOL foundItem = NO;
-    for (KIPageViewItem *item in self.visibleItems) {
-        if ([item _pageViewItemIndex] == index) {
+    for (KIPageViewCell *item in self.visibleItems) {
+        if ([item _pageViewCellIndex] == index) {
             foundItem = YES;
             break;
         }
@@ -670,11 +670,11 @@
     
     if ([self infinitable]) {
         if (index == 0) {
-            index = [self numberWithInfinitItems] - 2;
-            [self.scrollView setContentOffset:[self rectForPageViewItemAtIndex:index].origin animated:NO];
-        } else if (index == [self numberWithInfinitItems] - 1) {
+            index = [self numberWithInfinitCells] - 2;
+            [self.scrollView setContentOffset:[self rectForPageViewCellAtIndex:index].origin animated:NO];
+        } else if (index == [self numberWithInfinitCells] - 1) {
             index = 1;
-            [self.scrollView setContentOffset:[self rectForPageViewItemAtIndex:index].origin animated:NO];
+            [self.scrollView setContentOffset:[self rectForPageViewCellAtIndex:index].origin animated:NO];
         }
     }
     
@@ -774,12 +774,12 @@
     return self.scrollView.pagingEnabled;
 }
 
-- (void)setItemMargin:(NSInteger)itemMargin {
-    if (_itemMargin == itemMargin) {
+- (void)setCellMargin:(NSInteger)itemMargin {
+    if (_cellMargin == itemMargin) {
         return ;
     }
     
-    _itemMargin = itemMargin;
+    _cellMargin = itemMargin;
     
     [self setNeedsLayout];
 }
