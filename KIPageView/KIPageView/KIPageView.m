@@ -348,7 +348,22 @@
     if ([self indexOutOfBounds:index]) {
         return nil;
     }
-    KIPageViewCell *cell = [self pageViewCellInVisibleListAtIndex:index];
+    
+    KIPageViewCell *cell = nil;
+    if ([self infinitable]) {
+        if (index == [self numberWithInfinitCells] - 2) {
+            index = 0;
+            cell = [self pageViewCellInReusableListWithIndex:index];
+        } else if (index == 1) {
+            index = [self numberWithInfinitCells] - 1;
+            cell = [self pageViewCellInReusableListWithIndex:index];
+        }
+        if (cell != nil) {
+            return cell;
+        }
+    }
+    
+    cell = [self pageViewCellInVisibleListAtIndex:index];
     if (cell == nil) {
         cell = [self cellAtIndex:index];
     }
@@ -362,6 +377,24 @@
             pageViewCell = cell;
         }
     }];
+    return pageViewCell;
+}
+
+- (KIPageViewCell *)pageViewCellInReusableListWithIndex:(NSInteger)index {
+    __block KIPageViewCell *pageViewCell = nil;
+    [self.visibleItems enumerateObjectsUsingBlock:^(KIPageViewCell *cell, BOOL *stop) {
+        if (index == [cell _pageViewCellIndex]) {
+            pageViewCell = cell;
+        }
+    }];
+    
+    if (pageViewCell == nil) {
+        [self.recycledItems enumerateObjectsUsingBlock:^(KIPageViewCell *cell, BOOL *stop) {
+            if (index == [cell _pageViewCellIndex]) {
+                pageViewCell = cell;
+            }
+        }];
+    }
     return pageViewCell;
 }
 
@@ -643,17 +676,29 @@
 - (void)reloadItemAtIndex:(NSInteger)fromIndex toIndex:(NSInteger)toIndex {
     for (NSInteger index = fromIndex; index <= toIndex; index++) {
         if (![self isDisplayingItemAtIndex:index]) {
-            KIPageViewCell *pageViewItem = [self cellAtIndex:index];
+            KIPageViewCell *pageViewItem = [self pageViewCellAtIndex:index];
             if (pageViewItem != nil) {
                 [self willDisplayCell:pageViewItem atIndex:index];
                 
                 [pageViewItem _setPageViewCellIndex:index];
                 [pageViewItem setFrame:[self rectForPageViewCellAtIndex:index]];
                 
-                if ([pageViewItem _pageViewCellIndex] == self.selectedIndex) {
-                    [pageViewItem setSelected:YES];
+                if ([self infinitable]) {
+                    if (index == 0 && self.selectedIndex == [self numberWithInfinitCells] - 2) {
+                        [pageViewItem setSelected:YES];
+                    } else if (index == [self numberWithInfinitCells] - 1 && self.selectedIndex == 1) {
+                        [pageViewItem setSelected:YES];
+                    } else if (index == self.selectedIndex) {
+                        [pageViewItem setSelected:YES];
+                    } else {
+                        [pageViewItem setSelected:NO];
+                    }
                 } else {
-                    [pageViewItem setSelected:NO];
+                    if (index == self.selectedIndex) {
+                        [pageViewItem setSelected:YES];
+                    } else {
+                        [pageViewItem setSelected:NO];
+                    }
                 }
                 
                 [pageViewItem addObserver:self forKeyPath:@"selected" options:NSKeyValueObservingOptionNew context:nil];

@@ -38,6 +38,7 @@
     }
     [pageViewCell setBackgroundColor:[UIColor redColor]];
     [label setText:self.dataSource[index]];
+    
     return pageViewCell;
 }
 
