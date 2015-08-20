@@ -10,9 +10,12 @@
 
 @interface KIPageViewCell : UIView
 
-@property (nonatomic, copy) NSString *reuseIdentifier;
+@property (nonatomic, copy) NSString    *reuseIdentifier;
+@property (nonatomic, assign) BOOL      selected;
 
-@property (nonatomic, assign) BOOL selected;
+@property (nonatomic, strong) UIView    *contentView;
+@property (nonatomic, strong) UIView    *backgroundView;
+@property (nonatomic, strong) UIView    *selectedBackgroundView;
 
 - (instancetype)initWithIdentifier:(NSString *)identifier;
 

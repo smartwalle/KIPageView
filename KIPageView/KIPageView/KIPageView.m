@@ -38,6 +38,8 @@
 @property (nonatomic, assign) NSInteger     totalPages;
 @property (nonatomic, assign) NSInteger     currentPageIndex;
 
+@property (nonatomic, assign) NSInteger     selectedIndex;
+
 @property (nonatomic, strong) UIScrollView  *scrollView;
 
 @property (nonatomic, assign) NSUInteger    timeInterval;
@@ -146,8 +148,9 @@
 #pragma mark 【初始化】
 #pragma mark **************************************************
 - (void)_initFinishedWithOrientation:(KIPageViewOrientation)orientation {
-    [self setTotalPages:0];
     [self setPageViewOrientation:orientation];
+    [self setSelectedIndex:-1];
+    [self setTotalPages:0];
     [self setCurrentPageIndex:-1];
     [self setInfinite:YES];
     [self setBackgroundColor:[UIColor whiteColor]];
@@ -225,6 +228,14 @@
 }
 
 - (void)didSelectedCell:(KIPageViewCell *)cell {
+    
+    if (self.selectedIndex >= 0) {
+        KIPageViewCell *cell = [self pageViewCellAtIndex:self.selectedIndex];
+        [cell setSelected:NO];
+    }
+    
+    [self setSelectedIndex:[cell _pageViewCellIndex]];
+    
     if (self.delegate != nil && [self.delegate respondsToSelector:@selector(pageView:didSelectedCell:atIndex:)]) {
         [self.delegate pageView:self didSelectedCell:cell atIndex:[self indexWithInfiniteIndex:[cell _pageViewCellIndex]]];
     }
@@ -337,7 +348,21 @@
     if ([self indexOutOfBounds:index]) {
         return nil;
     }
-    return [self cellAtIndex:index];
+    KIPageViewCell *cell = [self pageViewCellInVisibleListAtIndex:index];
+    if (cell == nil) {
+        cell = [self cellAtIndex:index];
+    }
+    return cell;
+}
+
+- (KIPageViewCell *)pageViewCellInVisibleListAtIndex:(NSInteger)index {
+    __block KIPageViewCell *pageViewCell = nil;
+    [self.visibleItems enumerateObjectsUsingBlock:^(KIPageViewCell *cell, BOOL *stop) {
+        if (index == [cell _pageViewCellIndex]) {
+            pageViewCell = cell;
+        }
+    }];
+    return pageViewCell;
 }
 
 - (NSInteger)numberWithInfinitCells {
@@ -625,6 +650,12 @@
                 [pageViewItem _setPageViewCellIndex:index];
                 [pageViewItem setFrame:[self rectForPageViewCellAtIndex:index]];
                 
+                if ([pageViewItem _pageViewCellIndex] == self.selectedIndex) {
+                    [pageViewItem setSelected:YES];
+                } else {
+                    [pageViewItem setSelected:NO];
+                }
+                
                 [pageViewItem addObserver:self forKeyPath:@"selected" options:NSKeyValueObservingOptionNew context:nil];
                 
                 [self.scrollView addSubview:pageViewItem];
@@ -671,14 +702,12 @@
     if ([self infinitable]) {
         if (index == 0) {
             index = [self numberWithInfinitCells] - 2;
-            [self.scrollView setContentOffset:[self rectForPageViewCellAtIndex:index].origin animated:NO];
         } else if (index == [self numberWithInfinitCells] - 1) {
             index = 1;
-            [self.scrollView setContentOffset:[self rectForPageViewCellAtIndex:index].origin animated:NO];
         }
+        [self.scrollView setContentOffset:[self rectForPageViewCellAtIndex:index].origin animated:NO];
     }
-    
-    
+        
 //    if (self.currentPageIndex != index) {
 //        [self setCurrentPageIndex:index];
     if (index >= 0) {
