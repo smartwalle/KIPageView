@@ -1,5 +1,5 @@
 //
-//  KIPageViewItem.m
+//  KIPageViewCell.m
 //  KIPageView
 //
 //  Created by SmartWalle on 15/8/14.
@@ -12,6 +12,8 @@
     @private
     NSInteger _cellIndex;
 }
+
+@property (nonatomic, assign) BOOL pageViewCellSelected;
 @end
 
 @implementation KIPageViewCell
@@ -63,6 +65,11 @@
     [self sendSubviewToBack:self.backgroundView];
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [super touchesBegan:touches withEvent:event];
+    [self setHighlighted:YES];
+}
+
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     [super touchesBegan:touches withEvent:event];
     [self updateSelectedStatus:YES];
@@ -78,9 +85,23 @@
 }
 
 - (void)updateSelectedStatus:(BOOL)select {
-    if (self.selected != select) {
-        [self setSelected:select];
+    if (self.pageViewCellSelected != select) {
+        [self setSelected:select animated:YES];
     }
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [self setPageViewCellSelected:selected];
+    
+    [UIView animateKeyframesWithDuration:animated?0.3:0
+                                   delay:0
+                                 options:0
+                              animations:^{
+                                  [self.backgroundView setAlpha:self.pageViewCellSelected?0:1];
+                                  [self.selectedBackgroundView setAlpha:self.pageViewCellSelected?1:0];
+                              } completion:^(BOOL finished) {
+                                  
+                              }];
 }
 
 #pragma makr - Getters and Settters
@@ -120,10 +141,11 @@
 }
 
 - (void)setSelected:(BOOL)selected {
-    _selected = selected;
-    
-    [self.backgroundView setHidden:_selected];
-    [self.selectedBackgroundView setHidden:!_selected];
+    [self setSelected:selected animated:NO];
+}
+
+- (BOOL)selected {
+    return self.pageViewCellSelected;
 }
 
 @end

@@ -14,6 +14,10 @@
 
 @implementation VerticalListViewController
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+}
+
 #pragma mark - KIPageViewDelegate
 - (NSInteger)numberOfCellsInPageView:(KIPageView *)pageView {
     return self.dataSource.count;
@@ -49,12 +53,16 @@
     NSLog(@"willDisplayCell %ld", index);
 }
 
-- (void)pageView:(KIPageView *)pageView didEndDisplayingCell:(KIPageViewCell *)pageViewItem atIndex:(NSInteger)index {
+- (void)pageView:(KIPageView *)pageView didEndDisplayingCellAtIndex:(NSInteger)index {
     NSLog(@"didEndDisplayingCell %ld", index);
 }
 
-- (void)pageView:(KIPageView *)pageView didSelectedCell:(KIPageViewCell *)pageViewItem atIndex:(NSInteger)index {
+- (void)pageView:(KIPageView *)pageView didSelectedCellAtIndex:(NSInteger)index {
     NSLog(@"选中了第 %ld 项", index);
+}
+
+- (void)pageView:(KIPageView *)pageView didDeselectedCellAtIndex:(NSInteger)index {
+    NSLog(@"取消选中 %ld", index);
 }
 
 #pragma mark - Getters and setters

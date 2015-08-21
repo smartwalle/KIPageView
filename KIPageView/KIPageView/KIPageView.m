@@ -36,9 +36,10 @@
 @property (nonatomic, strong) NSMutableArray        *rectForItems;
 
 @property (nonatomic, assign) NSInteger     totalPages;
-@property (nonatomic, assign) NSInteger     currentPageIndex;
+@property (nonatomic, assign) NSInteger     pageIndexForCellInVisibileList; //显示列表中的第一个cell的index
+@property (nonatomic, assign) NSInteger     lastDisplayPageIndex; //标记最后一次显示的cell，并且只在pagingEnable时有用
 
-@property (nonatomic, assign) NSInteger     selectedIndex;
+@property (nonatomic, assign) NSInteger     selectedIndex; //当前选中cell的index
 
 @property (nonatomic, strong) UIScrollView  *scrollView;
 
@@ -53,7 +54,7 @@
 - (void)dealloc {
     [self invalidTimer];
     [self.visibleItems enumerateObjectsUsingBlock:^(KIPageViewCell *obj, BOOL *stop) {
-        [obj removeObserver:self forKeyPath:@"selected" context:nil];
+        [obj removeObserver:self forKeyPath:@"pageViewCellSelected" context:nil];
     }];
 }
 
@@ -92,7 +93,7 @@
 
 - (void)layoutSubviews {
     CGRect rect = self.bounds;
-    if ([self infinitable] || self.pagingEnabled) {
+    if (self.pagingEnabled) {
         if (self.pageViewOrientation == KIPageViewVertical) {
             rect.size.height += self.cellMargin;
         } else {
@@ -102,20 +103,22 @@
     [self.scrollView setFrame:rect];
     
     if (self.delegate != nil) {
-        if ([self indexOutOfBounds:self.currentPageIndex]) {
-            [self setCurrentPageIndex:0];
+        if ([self indexOutOfBounds:self.pageIndexForCellInVisibileList]) {
+            [self setPageIndexForCellInVisibileList:0];
         }
-        [self reloadDataAndScrollToIndex:self.currentPageIndex];
+        [self reloadDataAndScrollToIndex:self.pageIndexForCellInVisibileList];
     }
 }
 
 #pragma mark - NSKeyValueObserving
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if ([keyPath isEqualToString:@"selected"] && [object isKindOfClass:[KIPageViewCell class]]) {
-        
+    if ([keyPath isEqualToString:@"pageViewCellSelected"] && [object isKindOfClass:[KIPageViewCell class]]) {
+        KIPageViewCell *cell = (KIPageViewCell *)object;
         BOOL selected = [[change objectForKey:NSKeyValueChangeNewKey] boolValue];
         if (selected) {
-            [self didSelectedCell:object];
+            [self didSelectedCellAtIndex:[cell _pageViewCellIndex]];
+        } else {
+            [self didDeselectedCellAtIndex:[cell _pageViewCellIndex]];
         }
     }
 }
@@ -151,7 +154,8 @@
     [self setPageViewOrientation:orientation];
     [self setSelectedIndex:-1];
     [self setTotalPages:0];
-    [self setCurrentPageIndex:-1];
+    [self setPageIndexForCellInVisibileList:-1];
+    [self setLastDisplayPageIndex:-1];
     [self setInfinite:YES];
     [self setBackgroundColor:[UIColor whiteColor]];
     [self setClipsToBounds:YES];
@@ -227,25 +231,32 @@
     }
 }
 
-- (void)didSelectedCell:(KIPageViewCell *)cell {
-    
+- (void)didSelectedCellAtIndex:(NSInteger)index {
     if (self.selectedIndex >= 0) {
-        KIPageViewCell *cell = [self pageViewCellAtIndex:self.selectedIndex];
-        [cell setSelected:NO];
+//        KIPageViewCell *cell = [self pageViewCellInVisibleListAtIndex:self.selectedIndex];
+//        if (cell != nil) {
+//            [cell setSelected:NO animated:YES];
+//        } else {
+//            [self didDeselectedCellAtIndex:self.selectedIndex];
+//        }
+        [self deselectCellAtIndex:self.selectedIndex animated:YES];
     }
     
-    [self setSelectedIndex:[cell _pageViewCellIndex]];
+    [self setSelectedIndex:index];
     
-    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(pageView:didSelectedCell:atIndex:)]) {
-        [self.delegate pageView:self didSelectedCell:cell atIndex:[self indexWithInfiniteIndex:[cell _pageViewCellIndex]]];
+    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(pageView:didSelectedCellAtIndex:)]) {
+        [self.delegate pageView:self didSelectedCellAtIndex:[self indexWithInfiniteIndex:index]];
     }
 }
 
-//- (void)didDeselectedItem:(KIPageViewItem *)item {
-//    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(pageView:didDeselectedItem:)]) {
-//        [self.delegate pageView:self didDeselectedItem:item];
-//    }
-//}
+- (void)didDeselectedCellAtIndex:(NSInteger)index {
+    if (self.selectedIndex != index) {
+        return ;
+    }
+    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(pageView:didDeselectedCellAtIndex:)]) {
+        [self.delegate pageView:self didDeselectedCellAtIndex:[self indexWithInfiniteIndex:index]];
+    }
+}
 
 - (void)updateRectForCells {
     [self.rectForItems removeAllObjects];
@@ -470,22 +481,28 @@
 }
 
 - (void)scrollToPageViewCellAtIndex:(NSInteger)index animated:(BOOL)animated {
+    [self scrollToPageViewCellAtIndex:index animated:animated init:NO];
+}
+
+- (void)scrollToPageViewCellAtIndex:(NSInteger)index animated:(BOOL)animated init:(BOOL)init {
     if ([self indexOutOfBounds:index]) {
         return ;
     }
     
-    if (index == 0) {
+    if (index == [self numberWithInfinitCells] - 2) {
+        return ;
+    }
+    
+    if (index == 0 && init) {
         [self updateDidDisplayPageIndex:self.scrollView];
     } else {
         CGRect rect = [self rectForPageViewCellAtIndex:index];
-//        CGPoint offset = rect.origin;
-//        if ([self infinitable]) {
-//            CGFloat x = MAX(rect.origin.x, self.scrollView.contentSize.width-[self width]-rect.size.width);
-//            CGFloat y = MAX(rect.origin.y, self.scrollView.contentSize.height-[self height]-rect.size.height);
-//            CGPointMake(x, y);
-//        }
-//        [self.scrollView setContentOffset:offset animated:animated];
-        [self.scrollView scrollRectToVisible:rect animated:animated];
+        CGPoint offset = rect.origin;
+        if ([self infinitable]) {
+            [self.scrollView setContentOffset:offset animated:animated];
+        } else {
+            [self.scrollView scrollRectToVisible:rect animated:animated];
+        }
     }
 }
 
@@ -495,7 +512,7 @@
 
 - (void)scrollToNextPage {
     if ([self infinitable]) {
-        NSInteger index = self.currentPageIndex;
+        NSInteger index = self.pageIndexForCellInVisibileList;
         if (index == 0) {
             index = [self numberWithInfinitCells] - 2;
         }
@@ -505,12 +522,59 @@
 
 - (void)scrollToPreviousPage {
     if ([self infinitable]) {
-        NSInteger index = self.currentPageIndex;
+        NSInteger index = self.pageIndexForCellInVisibileList;
         if (index == 0) {
             index = [self numberWithInfinitCells] - 2;
         }
         [self scrollToPageViewCellAtIndex:--index animated:YES];
     }
+}
+
+- (void)selectCellAtIndex:(NSInteger)index animated:(BOOL)animated {
+    if ([self indexOutOfBounds:index]) {
+        return ;
+    }
+    
+    NSInteger scrollToIndex = index;
+    if ([self infinitable]) {
+        
+    }
+    
+    [self scrollToPageViewCellAtIndex:[self indexWithInfiniteIndex:scrollToIndex] animated:animated];
+    
+    if (index == self.selectedIndex) {
+        return ;
+    }
+    
+//    KIPageViewCell *cell = [self pageViewCellAtIndex:index];
+//    
+//    [cell setSelected:YES animated:animated];
+    
+    KIPageViewCell *cell = [self pageViewCellInVisibleListAtIndex:index];
+    if (cell != nil) {
+        [cell setSelected:YES animated:animated];
+    } else {
+        if (self.selectedIndex > -1) {
+            [self deselectCellAtIndex:self.selectedIndex animated:animated];
+        }
+    }
+    
+    [self didSelectedCellAtIndex:index];
+}
+
+- (void)deselectCellAtIndex:(NSInteger)index animated:(BOOL)animated {
+    if ([self indexOutOfBounds:index]) {
+        return ;
+    }
+    
+    KIPageViewCell *cell = [self pageViewCellInVisibleListAtIndex:self.selectedIndex];
+    if (cell != nil) {
+        [cell setSelected:NO animated:YES];
+    } else {
+        [self didDeselectedCellAtIndex:self.selectedIndex];
+    }
+    
+    [self setSelectedIndex:-1];
 }
 
 #pragma mark **************************************************
@@ -555,7 +619,7 @@
     [self updateContentSize];
     [self updatePageViewItems];
 
-    [self scrollToPageViewCellAtIndex:0];
+    [self scrollToPageViewCellAtIndex:0 animated:NO init:YES];
 //    [self.scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
 //    [self updateDisplayingPageIndex:self.scrollView];
 }
@@ -574,7 +638,7 @@
     
     [self reloadVisibleItems];
     
-    [self scrollToPageViewCellAtIndex:index];
+    [self scrollToPageViewCellAtIndex:index animated:NO init:YES];
 }
 
 - (void)updatePageViewItems {
@@ -646,7 +710,7 @@
         lastNeededPageIndex  = MIN(lastNeededPageIndex, [self numberWithInfinitCells]-1);
     }
     
-    [self setCurrentPageIndex:firstNeededPageIndex];
+    [self setPageIndexForCellInVisibileList:firstNeededPageIndex];
     
     [self recycleItemsWithoutIndex:firstNeededPageIndex toIndex:lastNeededPageIndex];
     [self reloadItemAtIndex:firstNeededPageIndex toIndex:lastNeededPageIndex];
@@ -659,7 +723,7 @@
             NSMutableSet *recycledItems = [self recycledCellsWithIdentifier:item.reuseIdentifier];
             [recycledItems addObject:item];
             
-            [item removeObserver:self forKeyPath:@"selected"];
+            [item removeObserver:self forKeyPath:@"pageViewCellSelected"];
             [self.recycledItems addObject:item];
             [item removeFromSuperview];
             
@@ -684,24 +748,24 @@
                 [pageViewItem setFrame:[self rectForPageViewCellAtIndex:index]];
                 
                 if ([self infinitable]) {
-                    if (index == 0 && self.selectedIndex == [self numberWithInfinitCells] - 2) {
-                        [pageViewItem setSelected:YES];
-                    } else if (index == [self numberWithInfinitCells] - 1 && self.selectedIndex == 1) {
-                        [pageViewItem setSelected:YES];
+                    if (index == 0 && self.selectedIndex >=0 && self.selectedIndex == [self numberWithInfinitCells] - 2) {
+                        [pageViewItem setSelected:YES animated:NO];
+                    } else if (index == [self numberWithInfinitCells] - 1 && self.selectedIndex >=0 && self.selectedIndex == 1) {
+                        [pageViewItem setSelected:YES animated:NO];
                     } else if (index == self.selectedIndex) {
-                        [pageViewItem setSelected:YES];
+                        [pageViewItem setSelected:YES animated:NO];
                     } else {
-                        [pageViewItem setSelected:NO];
+                        [pageViewItem setSelected:NO animated:NO];
                     }
                 } else {
                     if (index == self.selectedIndex) {
-                        [pageViewItem setSelected:YES];
+                        [pageViewItem setSelected:YES animated:NO];
                     } else {
-                        [pageViewItem setSelected:NO];
+                        [pageViewItem setSelected:NO animated:NO];
                     }
                 }
                 
-                [pageViewItem addObserver:self forKeyPath:@"selected" options:NSKeyValueObservingOptionNew context:nil];
+                [pageViewItem addObserver:self forKeyPath:@"pageViewCellSelected" options:NSKeyValueObservingOptionNew context:nil];
                 
                 [self.scrollView addSubview:pageViewItem];
                 
@@ -752,14 +816,11 @@
         }
         [self.scrollView setContentOffset:[self rectForPageViewCellAtIndex:index].origin animated:NO];
     }
-        
-//    if (self.currentPageIndex != index) {
-//        [self setCurrentPageIndex:index];
-    if (index >= 0) {
+    
+    if (index >= 0 && self.lastDisplayPageIndex != index) {
+        [self setLastDisplayPageIndex:index];
         [self didDisplayPage:index];
     }
-    
-//    }
 }
 
 #pragma mark - Getters and setters

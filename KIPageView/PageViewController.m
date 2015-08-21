@@ -50,9 +50,12 @@
     NSLog(@"didEndDisplayingPage %ld", pageIndex);
 }
 
-- (void)pageView:(KIPageView *)pageView didSelectedCell:(KIPageViewCell *)pageViewItem atIndex:(NSInteger)index {
+- (void)pageView:(KIPageView *)pageView didSelectedCellAtIndex:(NSInteger)index {
     NSLog(@"选中了第 %ld 项", index);
 }
 
+- (void)pageView:(KIPageView *)pageView didDeselectedCellAtIndex:(NSInteger)index {
+    NSLog(@"取消选中 %ld", index);
+}
 
 @end
