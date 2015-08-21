@@ -233,13 +233,7 @@
 
 - (void)didSelectedCellAtIndex:(NSInteger)index {
     if (self.selectedIndex >= 0) {
-//        KIPageViewCell *cell = [self pageViewCellInVisibleListAtIndex:self.selectedIndex];
-//        if (cell != nil) {
-//            [cell setSelected:NO animated:YES];
-//        } else {
-//            [self didDeselectedCellAtIndex:self.selectedIndex];
-//        }
-        [self deselectCellAtIndex:self.selectedIndex animated:YES];
+        [self deselectCellAtIndex:self.selectedIndex animated:NO];
     }
     
     [self setSelectedIndex:index];
@@ -308,7 +302,7 @@
             height += [self cellMargin];
             height *= [self numberWithInfinitCells];
         } else {
-            width += [ self cellMargin];
+            width += [self cellMargin];
             width *= [self numberWithInfinitCells];
         }
     } else {
@@ -489,7 +483,7 @@
         return ;
     }
     
-    if (index == [self numberWithInfinitCells] - 2) {
+    if (index == 0 && self.pageIndexForCellInVisibileList == [self numberWithInfinitCells] - 2) {
         return ;
     }
     
@@ -497,6 +491,15 @@
         [self updateDidDisplayPageIndex:self.scrollView];
     } else {
         CGRect rect = [self rectForPageViewCellAtIndex:index];
+        
+        if ([self infinitable]) {
+            //优化选中的滑动动画
+            if ((index == 0 || index == 1) && self.pageIndexForCellInVisibileList > [self numberOfPages] / 2) {
+                index = [self numberWithInfinitCells] - (2 - index);
+                rect = [self rectForPageViewCellAtIndex:index];
+            }
+        }
+        
         CGPoint offset = rect.origin;
         if ([self infinitable]) {
             [self.scrollView setContentOffset:offset animated:animated];
@@ -569,7 +572,7 @@
     
     KIPageViewCell *cell = [self pageViewCellInVisibleListAtIndex:self.selectedIndex];
     if (cell != nil) {
-        [cell setSelected:NO animated:YES];
+        [cell setSelected:NO animated:animated];
     } else {
         [self didDeselectedCellAtIndex:self.selectedIndex];
     }

@@ -70,9 +70,21 @@
     [self setHighlighted:YES];
 }
 
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+    [super touchesCancelled:touches withEvent:event];
+    [self setHighlighted:NO];
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    [super touchesMoved:touches withEvent:event];
+    [self setHighlighted:NO];
+}
+
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     [super touchesBegan:touches withEvent:event];
     [self updateSelectedStatus:YES];
+    
+    [self setHighlighted:NO];
 }
 
 #pragma mark - Event response
@@ -86,19 +98,29 @@
 
 - (void)updateSelectedStatus:(BOOL)select {
     if (self.pageViewCellSelected != select) {
-        [self setSelected:select animated:YES];
+        [self setPageViewCellSelected:select];
+        [self updateViewWithAnimated:YES touch:YES];
     }
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [self setPageViewCellSelected:selected];
+    [self updateViewWithAnimated:animated touch:NO];
+}
+
+- (void)updateViewWithAnimated:(BOOL)animated touch:(BOOL)touch {
+    BOOL h = (_highlighted || _pageViewCellSelected);
+    
+    if (touch && self.pageViewCellSelected) {
+        animated = NO;
+    }
     
     [UIView animateKeyframesWithDuration:animated?0.3:0
                                    delay:0
                                  options:0
                               animations:^{
-                                  [self.backgroundView setAlpha:self.pageViewCellSelected?0:1];
-                                  [self.selectedBackgroundView setAlpha:self.pageViewCellSelected?1:0];
+                                  [self.backgroundView setAlpha:h?0:1];
+                                  [self.selectedBackgroundView setAlpha:h?1:0];
                               } completion:^(BOOL finished) {
                                   
                               }];
@@ -146,6 +168,11 @@
 
 - (BOOL)selected {
     return self.pageViewCellSelected;
+}
+
+- (void)setHighlighted:(BOOL)highlighted {
+    _highlighted = highlighted;
+    [self updateViewWithAnimated:_highlighted touch:YES];
 }
 
 @end
