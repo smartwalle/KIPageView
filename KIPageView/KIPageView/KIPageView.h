@@ -50,6 +50,7 @@ typedef NS_OPTIONS(NSUInteger, KIPageViewOrientation) {
 @property (nonatomic, assign) id<KIPageViewDelegate>    delegate;
 @property (nonatomic, assign) BOOL                      infinite;
 
+@property (nonatomic, assign) BOOL                      scrollEnabled;
 @property (nonatomic, assign) BOOL                      pagingEnabled;
 @property (nonatomic, assign) BOOL                      bounces;
 

@@ -898,6 +898,18 @@
     [self setNeedsLayout];
 }
 
+- (void)setScrollEnabled:(BOOL)scrollEnabled {
+    if (self.scrollView.scrollEnabled == scrollEnabled) {
+        return ;
+    }
+    
+    [self.scrollView setScrollEnabled:scrollEnabled];
+}
+
+- (BOOL)scrollEnabled {
+    return self.scrollView.scrollEnabled;
+}
+
 - (void)setPagingEnabled:(BOOL)pagingEnabled {
     if (self.scrollView.pagingEnabled == pagingEnabled) {
         return ;
