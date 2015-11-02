@@ -12,3 +12,7 @@ UITableView 很强大，可是只能竖向滚动；UICollectionView 可以解决
 很常见的一个应用场景——显示图片：如果显示一张图片，我们用一个 UIImageView 足矣，如果要显示多张图片，并且可以左右滚动，最简单的办法是用一个 UIScrollView 包含多个 UIImageView, 但是这样带来的后果则是，如果图片数据量较大，那这个程序根本没有办法正常使用。如果我们还需要实现无限循环滚动，那这个解决方案肯定是不行的。所以这时候，就得我们自己实现一个 UITableView。
 
 最开始，我写了一个组件叫 KIFlowView，实现了上面讲的需求，但是都是 iOS5 时代的产物了，难免过于陈旧。在后续的工作中也发现，类似的需求其实挺多的，比如左右滑动的 View，如网易新闻客户端，可以左右滑动，在不同的新闻栏目之间进行切换；有时候我们也需要实现一些 Tab，如果 Tab 的项目比较多，也需要考虑复用的问题，所以决定重新写一个增强组件，作为其替代品，所以就产生了 KIPageView。
+
+Pods:
+
+	pod 'KIPageView', :git => "https://github.com/smartwalle/KIPageView.git", :tag => '0.1'
