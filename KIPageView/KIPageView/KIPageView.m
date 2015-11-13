@@ -53,9 +53,6 @@
 #pragma mark - Lifecycle
 - (void)dealloc {
     [self invalidTimer];
-    [self.visibleItems enumerateObjectsUsingBlock:^(KIPageViewCell *obj, BOOL *stop) {
-        [obj removeObserver:self forKeyPath:@"pageViewCellSelected" context:nil];
-    }];
 }
 
 - (instancetype)initWithOrientation:(KIPageViewOrientation)orientation {
@@ -110,16 +107,12 @@
     }
 }
 
-#pragma mark - NSKeyValueObserving
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if ([keyPath isEqualToString:@"pageViewCellSelected"] && [object isKindOfClass:[KIPageViewCell class]]) {
-        KIPageViewCell *cell = (KIPageViewCell *)object;
-        BOOL selected = [[change objectForKey:NSKeyValueChangeNewKey] boolValue];
-        if (selected) {
-            [self didSelectedCellAtIndex:[cell _pageViewCellIndex]];
-        } else {
-            [self didDeselectedCellAtIndex:[cell _pageViewCellIndex]];
-        }
+#pragma mark - KIPageViewCellDelegate
+- (void)pageViewCell:(KIPageViewCell *)cell updateSelectedStatus:(BOOL)selected {
+    if (selected) {
+        [self didSelectedCellAtIndex:[cell _pageViewCellIndex]];
+    } else {
+        [self didDeselectedCellAtIndex:[cell _pageViewCellIndex]];
     }
 }
 
@@ -131,6 +124,7 @@
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     //开始拖曳的时候，暂时将timer设置无效
     [self invalidTimer];
+//    [scrollView setUserInteractionEnabled:NO];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
@@ -140,10 +134,12 @@
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     [self updateDidDisplayPageIndex:scrollView];
+//    [scrollView setUserInteractionEnabled:YES];
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
     [self updateDidDisplayPageIndex:scrollView];
+//    [scrollView setUserInteractionEnabled:YES];
 }
 
 #pragma mark - Methods
@@ -613,18 +609,31 @@
 #pragma mark 【重新加载数据】
 #pragma mark **************************************************
 - (void)reloadData {
+//    [self.visibleItems enumerateObjectsUsingBlock:^(KIPageViewCell *item, BOOL * _Nonnull stop) {
+//        [item removeFromSuperview];
+//    }];
+//    [self.recycledItems enumerateObjectsUsingBlock:^(KIPageViewCell *item, BOOL * _Nonnull stop) {
+//        [item removeFromSuperview];
+//    }];
+//    [self.visibleItems removeAllObjects];
+//    [self.recycledItems removeAllObjects];
+//    [self.reusableItems removeAllObjects];
+//    
+    [self setSelectedIndex:-1];
+    [self setTotalPages:0];
+    [self setPageIndexForCellInVisibileList:-1];
+    [self setLastDisplayPageIndex:-1];
+    
     [self.scrollView setContentOffset:CGPointZero animated:NO];
     
-    [self setTotalPages:0];
-    
     [self updateRectForCells];
-    
     [self updateContentSize];
     [self updatePageViewItems];
-
+    
     [self scrollToPageViewCellAtIndex:0 animated:NO init:YES];
-//    [self.scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
-//    [self updateDisplayingPageIndex:self.scrollView];
+    
+    //    [self.scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
+    //    [self updateDisplayingPageIndex:self.scrollView];
 }
 
 - (void)reloadDataAndScrollToIndex:(NSInteger)index {
@@ -720,13 +729,12 @@
 }
 
 - (void)recycleItemsWithoutIndex:(NSInteger)fromIndex toIndex:(NSInteger)toIndex {
-    for (KIPageViewCell *item in self.visibleItems) {
+    [self.visibleItems enumerateObjectsUsingBlock:^(KIPageViewCell *item, BOOL *stop) {
         NSInteger index = [item _pageViewCellIndex];
         if (index < fromIndex || index > toIndex) {
             NSMutableSet *recycledItems = [self recycledCellsWithIdentifier:item.reuseIdentifier];
             [recycledItems addObject:item];
             
-            [item removeObserver:self forKeyPath:@"pageViewCellSelected"];
             [self.recycledItems addObject:item];
             [item removeFromSuperview];
             
@@ -736,7 +744,7 @@
                 [self didEndDisplayingCell:item atIndex:index];
             }
         }
-    }
+    }];
     [self.visibleItems minusSet:self.recycledItems];
 }
 
@@ -767,8 +775,6 @@
                         [pageViewItem setSelected:NO animated:NO];
                     }
                 }
-                
-                [pageViewItem addObserver:self forKeyPath:@"pageViewCellSelected" options:NSKeyValueObservingOptionNew context:nil];
                 
                 [self.scrollView addSubview:pageViewItem];
                 

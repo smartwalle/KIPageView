@@ -8,6 +8,11 @@
 
 #import "KIPageViewCell.h"
 
+@protocol KIPageViewCellDelegate <NSObject>
+@optional
+- (void)pageViewCell:(KIPageViewCell *)cell updateSelectedStatus:(BOOL)selected;
+@end
+
 @interface KIPageViewCell () {
     @private
     NSInteger _cellIndex;
@@ -20,7 +25,6 @@
 
 #pragma mark - Lifecycle
 - (void)dealloc {
-    
 }
 
 - (instancetype)initWithIdentifier:(NSString *)identifier {
@@ -173,6 +177,14 @@
 - (void)setHighlighted:(BOOL)highlighted {
     _highlighted = highlighted;
     [self updateViewWithAnimated:_highlighted touch:YES];
+}
+
+- (void)setPageViewCellSelected:(BOOL)pageViewCellSelected {
+    _pageViewCellSelected = pageViewCellSelected;
+    if ([self.superview.superview respondsToSelector:@selector(pageViewCell:updateSelectedStatus:)]) {
+        id<KIPageViewCellDelegate> delegate = (id)self.superview.superview;
+        [delegate pageViewCell:self updateSelectedStatus:_pageViewCellSelected];
+    }
 }
 
 @end

@@ -25,50 +25,22 @@
     [self setEdgesForExtendedLayout:UIRectEdgeNone];
     
     [self.view addSubview:self.pageView];
-    
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [self layoutSubviews];
 }
 
 #pragma mark - Methods
 - (void)layoutSubviews {
-    
     [self.pageView setTranslatesAutoresizingMaskIntoConstraints:NO];
     
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
         [self.pageView setLayoutMargins:UIEdgeInsetsZero];
     }
     
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.pageView
-                                                              attribute:NSLayoutAttributeTop
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeTop
-                                                             multiplier:1.0
-                                                               constant:10]];
-    
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.pageView
-                                                              attribute:NSLayoutAttributeLeftMargin
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeLeft
-                                                             multiplier:1.0
-                                                               constant:10]];
-    
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.pageView
-                                                             attribute:NSLayoutAttributeRightMargin
-                                                             relatedBy:NSLayoutRelationEqual
-                                                                toItem:self.view
-                                                             attribute:NSLayoutAttributeRight
-                                                            multiplier:1.0
-                                                               constant:-10]];
-    
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.pageView
-                                                              attribute:NSLayoutAttributeBottomMargin
-                                                              relatedBy:NSLayoutRelationEqual
-                                                                 toItem:self.view
-                                                              attribute:NSLayoutAttributeBottom
-                                                             multiplier:1.0
-                                                               constant:-10]];
+    [self.pageView setFrame:CGRectMake(10, 10, CGRectGetWidth(self.view.frame) - 20, CGRectGetHeight(self.view.frame) - 20)];
 }
 
 #pragma mark - Getters and setters
