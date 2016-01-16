@@ -16,6 +16,8 @@
 @interface KIPageViewCell () {
     @private
     NSInteger _cellIndex;
+    UIView *_selectedBackgroundView;
+    UIView *_backgroundView;
 }
 
 @property (nonatomic, assign) BOOL pageViewCellSelected;
@@ -67,6 +69,7 @@
     [self.contentView setFrame:self.bounds];
     [self bringSubviewToFront:self.contentView];
     [self sendSubviewToBack:self.backgroundView];
+    [self insertSubview:self.selectedBackgroundView aboveSubview:self.backgroundView];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -149,6 +152,11 @@
     return _backgroundView;
 }
 
+- (void)setBackgroundView:(UIView *)backgroundView {
+    _backgroundView = backgroundView;
+    [super addSubview:_backgroundView];
+}
+
 - (void)setBackgroundColor:(UIColor *)backgroundColor {
     [self.backgroundView setBackgroundColor:backgroundColor];
 }
@@ -164,6 +172,11 @@
         [super addSubview:_selectedBackgroundView];
     }
     return _selectedBackgroundView;
+}
+
+- (void)setSelectedBackgroundView:(UIView *)selectedBackgroundView {
+    _selectedBackgroundView = selectedBackgroundView;
+    [super addSubview:_selectedBackgroundView];
 }
 
 - (void)setSelected:(BOOL)selected {
