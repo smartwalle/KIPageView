@@ -53,6 +53,7 @@ typedef NS_OPTIONS(NSUInteger, KIPageViewOrientation) {
 @property (nonatomic, assign) BOOL                      scrollEnabled;
 @property (nonatomic, assign) BOOL                      pagingEnabled;
 @property (nonatomic, assign) BOOL                      bounces;
+@property (nonatomic, assign) BOOL                      scrollsToTop;
 
 //只有当infinite为YES的时候，才会生效
 @property (nonatomic, assign) NSInteger                 cellMargin;
