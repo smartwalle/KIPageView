@@ -948,4 +948,12 @@
     [self.scrollView setBounces:bounces];
 }
 
+- (BOOL)scrollsToTop {
+    return self.scrollView.scrollsToTop;
+}
+
+- (void)setScrollsToTop:(BOOL)scrollsToTop {
+    [self.scrollView setScrollsToTop:scrollsToTop];
+}
+
 @end
