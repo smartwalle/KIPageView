@@ -15,4 +15,4 @@ UITableView 很强大，可是只能竖向滚动；UICollectionView 可以解决
 
 Pods:
 
-	pod 'KIPageView', :git => "https://github.com/smartwalle/KIPageView.git", :branch => 'master'
+	pod 'KIPageView'
