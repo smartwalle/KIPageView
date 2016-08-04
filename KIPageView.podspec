@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
   s.license       = "MIT"
   s.author        = { "SmartWalle" => "smartwalle@gmail.com" }
   s.platform      = :ios
-  s.source        = { :git => "https://github.com/smartwalle/KIPageView.git", :branch => "master" }
+  s.source        = { :git => "https://github.com/smartwalle/KIPageView.git", :tag => "#{s.version}" }
   s.source_files  = "KIPageView/KIPageView/*.{h,m}"
   s.exclude_files = "Classes/Exclude"
   s.requires_arc  = true
